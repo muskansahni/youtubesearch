@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+
+<h1>Welcome to youtube search</h1>
+<form action="/search" method="POST">
+<input type="text" name="keyword" id="keyword">
+<button type="button" id="btn">submit</button>
+</form>
+<script>
+const btn= document.getElementById("btn");
+const data= document.getElementById('keyword');
+btn.addEventListener('click',async (e)=>{
+   
+   
+    const search= document.getElementById('keyword').value;
+    const opts={
+
+    
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', 
+    headers: {
+      'Content-Type': 'application/json'
+      
+    },
+    body: JSON.stringify({
+        keyword:search
+    }),
+};
+const response= await fetch('/search',opts);
+const dat=      await response.json();
+console.log(dat);
+dat.forEach(function(item){
+    var name= document.createElement('div');
+    name.textContent=` ${item.title}`;
+    var channelname= document.createElement('div');
+    channelname.textContent=` ${item.channelTitle}`;
+    var des= document.createElement('div');
+    des.textContent=` ${item.description}`;
+
+    var image= document.createElement('img');
+    image.src=item.thumbnails.default.url;
+    var url=document.createElement('a');
+    url.href=item.link;
+  
+ 
+    document.body.append(name,des,image,url,channelname);
+});
+
+});
+</script>
+</body>
+</html>
+
